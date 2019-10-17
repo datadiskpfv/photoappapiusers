@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.co.datadisk.photoapp.api.users.model.CreateUserRequestModel;
+import uk.co.datadisk.photoapp.api.users.model.CreateUserResponseModel;
 import uk.co.datadisk.photoapp.api.users.services.UsersService;
 import uk.co.datadisk.photoapp.api.users.shared.UserDto;
 
@@ -30,7 +31,7 @@ public class UsersController {
   }
 
   @PostMapping
-  public ResponseEntity<CreateUserRequestModel> createUser(@Valid @RequestBody CreateUserRequestModel userDetails) {
+  public ResponseEntity<CreateUserResponseModel> createUser(@Valid @RequestBody CreateUserRequestModel userDetails) {
 
     ModelMapper modelMapper = new ModelMapper();
     modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
@@ -38,7 +39,7 @@ public class UsersController {
     UserDto userDto = modelMapper.map(userDetails, UserDto.class);
 
     UserDto createdUser = usersService.createUser(userDto);
-    CreateUserRequestModel returnValue = modelMapper.map(createdUser, CreateUserRequestModel.class);
+    CreateUserResponseModel returnValue = modelMapper.map(createdUser, CreateUserResponseModel.class);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
   }
