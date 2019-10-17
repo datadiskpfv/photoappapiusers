@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.co.datadisk.photoapp.api.users.model.CreateUserRequestModel;
@@ -30,7 +31,9 @@ public class UsersController {
     return "Working Users Service, using port " + env.getProperty("local.server.port");
   }
 
-  @PostMapping
+  @PostMapping(
+          consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE },
+          produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
   public ResponseEntity<CreateUserResponseModel> createUser(@Valid @RequestBody CreateUserRequestModel userDetails) {
 
     ModelMapper modelMapper = new ModelMapper();
