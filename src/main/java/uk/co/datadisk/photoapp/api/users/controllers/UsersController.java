@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.co.datadisk.photoapp.api.users.model.CreateUserRequestModel;
 import uk.co.datadisk.photoapp.api.users.model.CreateUserResponseModel;
+import uk.co.datadisk.photoapp.api.users.model.UserResponseModel;
 import uk.co.datadisk.photoapp.api.users.services.UsersService;
 import uk.co.datadisk.photoapp.api.users.shared.UserDto;
 
@@ -46,5 +47,13 @@ public class UsersController {
     CreateUserResponseModel returnValue = modelMapper.map(createdUser, CreateUserResponseModel.class);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
+  }
+
+  @GetMapping("/{userId}",
+      consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE },
+      produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+  public ResponseEntity<UserResponseModel> getUser(@PathVariable("userId") String userId) {
+
+    return ResponseEntity.status(HttpStatus.OK).body(returnValue);
   }
 }
