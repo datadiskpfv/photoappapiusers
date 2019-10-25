@@ -49,7 +49,7 @@ public class UsersController {
     return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
   }
 
-  @GetMapping("/{userId}",
+  @GetMapping(value="/{userId}",
       consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE },
       produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
   public ResponseEntity<UserResponseModel> getUser(@PathVariable("userId") String userId) {
