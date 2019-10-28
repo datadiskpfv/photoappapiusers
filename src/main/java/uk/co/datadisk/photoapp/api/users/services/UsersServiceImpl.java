@@ -1,7 +1,10 @@
 package uk.co.datadisk.photoapp.api.users.services;
 
+import feign.FeignException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -30,6 +33,8 @@ public class UsersServiceImpl implements UsersService {
   //private final RestTemplate restTemplate;
   private final Environment env;
   private final AlbumsServiceClient albumsServiceClient;
+
+  Logger logger = LoggerFactory.getLogger(this.getClass());
 
   public UsersServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, Environment env, AlbumsServiceClient albumsServiceClient) {
     this.userRepository = userRepository;
@@ -78,7 +83,13 @@ public class UsersServiceImpl implements UsersService {
 //
 //    List<AlbumResponseModel> albumsList = albumListResponse.getBody();
 
-    List<AlbumResponseModel> albumsList = albumsServiceClient.getAlbums(userId);
+    // If Feign exception occurs, still send details but albums will be null
+    List<AlbumResponseModel> albumsList = null;
+    try {
+      albumsList = albumsServiceClient.getAlbums(userId);
+    } catch (FeignException e) {
+      logger.error(e.getLocalizedMessage());
+    }
 
     userDto.setAlbums(albumsList);
 
