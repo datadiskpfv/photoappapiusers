@@ -83,6 +83,8 @@ public class UsersServiceImpl implements UsersService {
 //
 //    List<AlbumResponseModel> albumsList = albumListResponse.getBody();
 
+    logger.info("Before calling albums Microservice");
+
     // If Feign exception occurs, still send details but albums will be null
     List<AlbumResponseModel> albumsList = null;
     try {
